@@ -1,0 +1,31 @@
+name: model-rf-ibm-hr-shap
+on: [push]
+jobs:
+  run:
+    runs-on: [ubuntu-latest]
+    container: docker://dvcorg/cml-py3:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: cml_run_shap
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+
+          # shap installation
+          apt install python3-dev python3-pip build-essential gcc libxml2-dev libxslt1-dev zlib1g-dev g++
+          # Model Flow
+          pip install -r requirements_shap.txt
+          python train_model_shap.py
+          
+          echo "## RF Model metrics\n" >> model_report.md
+          cat rf_metrics.txt >> model_report.md
+          
+          echo "## Feature Importance & Shap Plots" >> model_report.md
+          #cml-publish rf_feature_importance.png --md >> model_report.md
+          for i in *.png; do
+              [ -f "$i" ] || break
+              cml-publish $i --md >> model_report.md
+          done
+
+          
+          cml-send-comment model_report.md
