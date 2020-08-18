@@ -28,7 +28,7 @@ def scorer(y_true, y_preds, is_return = False):
 feature_ext = True
 use_shap = True
 if feature_ext:
-    selected_cols = True
+    selected_cols = False
 top_n = 15
 seed = 2020
 
@@ -110,11 +110,13 @@ target = "Attrition"
 
 if selected_cols:
     train_cols = [
-    'OverTime', 'EnvironmentSatisfaction', 'DistanceFromHome',
-    'TotalWorkingYears', 'StockOptionLevel', 'WorkLifeBalance',
-    'JobInvolvement', 'TrainingTimesLastYear', 'EducationField', 'Education',
-    'Gender', 'YearsSinceLastPromotion', 'BusinessTravel', 'Age', 'Department',
-    'HourlyRate', 'clsCat', 'ManagerChangeYear', 'YearsInCurrentRole', 'clsNum']
+    'OverTime', 'DistanceFromHome', 'JobSatisfaction', 'JobRole',
+    'EnvironmentSatisfaction', 'Department', 'BusinessTravel',
+    'EducationField', 'Education', 'MaritalStatus', 'JobLevel',
+    'NumCompaniesWorked', 'MonthlyIncomeTrvlMean', 'ManagerChangeYear',
+    'JobInvolvement', 'WorkLifeBalance', 'MonthlyIncome', 'StockOptionLevel',
+    'DailyRate', 'MonthlyIncomeMaritMean', 'MonthlyIncomeRoleMean','MonthlyIncomeWLB', 
+    'WorkLifePercent', 'JobChangeYear', 'Gender', 'clsCat','clsNum']
 else:
     train_cols = [c for c in df.columns
               if c not in [target]]

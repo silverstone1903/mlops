@@ -11,7 +11,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
 
-          # shap installation
+          # shap installation 
           apt install python3-dev python3-pip build-essential gcc libxml2-dev libxslt1-dev zlib1g-dev g++
           # Model Flow
           pip install -r requirements_shap.txt
@@ -21,7 +21,6 @@ jobs:
           cat rf_metrics.txt >> model_report.md
           
           echo "## Feature Importance & Shap Plots" >> model_report.md
-          #cml-publish rf_feature_importance.png --md >> model_report.md
           for i in *.png; do
               [ -f "$i" ] || break
               cml-publish $i --md >> model_report.md
