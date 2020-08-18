@@ -28,7 +28,7 @@ def scorer(y_true, y_preds, is_return = False):
 feature_ext = True
 use_shap = True
 if feature_ext:
-    selected_cols = False
+    selected_cols = True
 top_n = 15
 seed = 2020
 
