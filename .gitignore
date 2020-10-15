@@ -6,3 +6,6 @@
 *.DS_Store
 *.png
 */.png
+
+*.Rproj
+*/.Rproj
