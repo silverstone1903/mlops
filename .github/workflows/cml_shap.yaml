@@ -1,5 +1,10 @@
 name: model-rf-ibm-hr-shap
 on: [push]
+
+defaults:
+  run:
+    working-directory: CML
+
 jobs:
   run:
     runs-on: [ubuntu-latest]

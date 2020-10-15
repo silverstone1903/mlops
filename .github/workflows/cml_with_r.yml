@@ -33,7 +33,7 @@ jobs:
           sudo apt install ./dvc_1.7.2_amd64.deb
           
           # Run DVC
-          dvc pull
+          # dvc pull
           Rscript train.R
           
           # CML report
