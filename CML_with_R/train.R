@@ -25,7 +25,7 @@ data[data == Inf] <- 0
 # drop constant columns
 data <- data[,-nearZeroVar(data)]
 
-head(data)
+# head(data)
 
 splitter <- createDataPartition(data$Attrition, list = F, p =0.8)
   
@@ -72,8 +72,14 @@ png("rf_model.png")
 plot(model)
 dev.off()
 
+png("rf_model_fi.png")
+plot(varImp(model),  top = 20)
+dev.off()
+
 results <- paste0("Accuracy: ", round(acc, 6), "\n", 
                  "F1: ", round(f1, 6),  "\n",
                  "Precision: ", round(pre, 6),  "\n",
                  "Recall: ", round(rec, 6), "\n")
+
 write.table(results, file = 'metrics.txt', col.names = FALSE, row.names = FALSE, quote = FALSE)
+

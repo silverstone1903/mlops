@@ -21,22 +21,24 @@ jobs:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
           # Install R packages & dependencies
-          R --silent -e "install.packages(c(\"randomForest\", \"e1071\", \"caret\", \"Rcpp\"))"
+          R --silent -e "install.packages(c(\"randomForest\", \"e1071\", \"caret\", \"Rcpp\", \"MLmetrics\"))"
           
           # Install Python packages for dvc
-          pip install --upgrade pip
-          pip install wheel
-          pip install PyDrive2==1.6.0 --use-feature=2020-resolver
+          # pip install --upgrade pip
+          # pip install wheel
+          # pip install PyDrive2==1.6.0 --use-feature=2020-resolver
           
           # Install DVC
-          wget -c https://github.com/iterative/dvc/releases/download/1.7.2/dvc_1.7.2_amd64.deb
-          sudo apt install ./dvc_1.7.2_amd64.deb
+          # wget -c https://github.com/iterative/dvc/releases/download/1.7.2/dvc_1.7.2_amd64.deb
+          # sudo apt install ./dvc_1.7.2_amd64.deb
           
           # Run DVC
           # dvc pull
+          # Run R 
           Rscript train.R
           
           # CML report
           echo "##Model Metrics" > report.md
           cat metrics.txt >> report.md
           cml-publish rf_model.png --md >> model_report.md
+          cml-send-comment report.md

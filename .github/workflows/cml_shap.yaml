@@ -17,7 +17,9 @@ jobs:
         run: |
 
           # shap installation 
-          apt install python3-dev python3-pip build-essential gcc libxml2-dev libxslt1-dev zlib1g-dev g++
+          apt-get update
+          apt-get install python3-dev python3-pip build-essential gcc libxml2-dev libxslt1-dev zlib1g-dev g++
+          
           # Model Flow
           pip install -r requirements_shap.txt
           python train_model_shap.py
