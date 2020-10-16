@@ -10,3 +10,5 @@
 *.Rproj
 */.Rproj
 .Rproj.user
+*.Rhistory
+*/.Rhistory
