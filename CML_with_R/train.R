@@ -6,7 +6,8 @@ names(data)[1] <- "Age"
 
 set.seed(2020)
 
-# new features
+# basic feature engineering
+# taken from Python script -> https://github.com/silverstone1903/mlops/blob/master/CML/train_model.py#L37
 data$RoleChangeYear <- data$YearsAtCompany - data$YearsInCurrentRole
 data$PromChangeYear <- data$YearsAtCompany - data$YearsSinceLastPromotion
 data$ManagerChangeYear <- data$YearsAtCompany - data$YearsWithCurrManager
@@ -25,19 +26,20 @@ data[data == Inf] <- 0
 # drop constant columns
 data <- data[,-nearZeroVar(data)]
 
-# head(data)
-
+# train test split
 splitter <- createDataPartition(data$Attrition, list = F, p =0.8)
   
 train <- data[splitter,]
 test <- data[-splitter,]
+
+#caret model parameters
 
 ctrl <- trainControl(method = "cv",
                      number = 5,
                      classProbs = TRUE,
                      summaryFunction = prSummary,
                      search = 'random')
-
+# class weights
 k = 0.7
 model_weights <- ifelse(train$Attrition == "Yes",
                         (1/table(train$Attrition)[1]) * k,
@@ -46,7 +48,6 @@ model_weights <- ifelse(train$Attrition == "Yes",
 
 # mtry <- sqrt(ncol(data))
 # tunegrid <- expand.grid(.mtry=mtry)
-
 
 model <- train(Attrition ~ ., method = "rf", 
               data = train,
@@ -59,19 +60,21 @@ model <- train(Attrition ~ ., method = "rf",
              tuneLength  = 10,
              )
 
+# print model details
 model
-confusionMatrix(predict(model, test), reference = as.factor(test$Attrition), mode = "prec_recall")
+# confusionMatrix(predict(model, test), reference = as.factor(test$Attrition), mode = "prec_recall")
 
 acc <- confusionMatrix(predict(model, test), reference = as.factor(test$Attrition), mode = "prec_recall")$overall[1]
 f1 <- confusionMatrix(predict(model, test), reference = as.factor(test$Attrition), mode = "prec_recall")$byClass[7]
 pre <- confusionMatrix(predict(model, test), reference = as.factor(test$Attrition), mode = "prec_recall")$byClass[5]
 rec <- confusionMatrix(predict(model, test), reference = as.factor(test$Attrition), mode = "prec_recall")$byClass[6]
 
-
+# model parameters plot
 png("rf_model.png")
 plot(model)
 dev.off()
 
+# feature importance plot
 png("rf_model_fi.png")
 plot(varImp(model),  top = 20)
 dev.off()
