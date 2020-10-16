@@ -1,4 +1,4 @@
-name: model-rf-ibm-hr
+name: CML with Python 
 on: [push]
 
 defaults:

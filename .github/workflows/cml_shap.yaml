@@ -1,4 +1,4 @@
-name: model-rf-ibm-hr-shap
+name: CML with PythonShap
 on: [push]
 
 defaults:

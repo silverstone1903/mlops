@@ -16,16 +16,16 @@ jobs:
         with:
           r-version: '3.6.3'
       - uses: actions/checkout@v2
-      - name: cml_run
+      - name: cml_run_r
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
 
           # cml install
-          npm i -g @dvcorg/cml
-          apt-get install -y libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev libfontconfig-dev
-          npm install -g vega-cli vega-lite
+          # npm i -g @dvcorg/cml
+          #apt-get install -y libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev libfontconfig-dev
+          # npm install -g vega-cli vega-lite
 
           # Install R packages & dependencies
           R --silent -e "install.packages(c(\"randomForest\", \"e1071\", \"caret\", \"Rcpp\", \"MLmetrics\"))"
@@ -45,7 +45,8 @@ jobs:
           Rscript train.R
           
           # CML report
-          echo "##Model Metrics" > report.md
-          cat metrics.txt >> report.md
+          echo "# #Model Metrics" > model_report.md
+          cat metrics.txt >> model_report.md
           cml-publish rf_model.png --md >> model_report.md
-          cml-send-comment report.md
+          cml-publish rf_model_fi.png --md >> model_report.md
+          cml-send-comment model_report.md
