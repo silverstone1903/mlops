@@ -45,8 +45,9 @@ jobs:
           Rscript train.R
           
           # CML report
-          echo "# #Model Metrics" > model_report.md
+          echo "## Model Metrics" > model_report.md
           cat metrics.txt >> model_report.md
           cml-publish rf_model.png --md >> model_report.md
           cml-publish rf_model_fi.png --md >> model_report.md
+          
           cml-send-comment model_report.md
