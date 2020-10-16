@@ -1,4 +1,4 @@
-name: CML with Python 
+name: CML-with-Python
 on: [push]
 
 defaults:

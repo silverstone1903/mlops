@@ -1,4 +1,4 @@
-name: CML with PythonShap
+name: CML-with-PythonShap
 on: [push]
 
 defaults:

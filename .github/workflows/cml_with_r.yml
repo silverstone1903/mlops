@@ -1,4 +1,4 @@
-name: CML with R
+name: CML-with-R
 on: [push]
 
 
